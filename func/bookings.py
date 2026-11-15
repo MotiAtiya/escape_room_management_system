@@ -27,14 +27,14 @@ def cancel_booking(bookings):
 
 def bookings_management(rooms, bookings):
     menu = {
-        "1": ("Create New Booking", lambda: new_booking(rooms, bookings)),
-        "2": ("Display All Bookings", lambda: display_bookings(bookings)),
-        "3": ("Search Booking", lambda: search_booking(bookings)),
-        "4": ("Display Customer Bookings", lambda: customer_bookings(bookings)),
-        "5": ("Display Bookings in Date", lambda: bookings_in_date(bookings)),
-        "6": ("Change Booking Details", lambda: change_booking(rooms, bookings)),
-        "7": ("Cancel Booking", lambda: cancel_booking(bookings)),
-        "8": ("Back to Main Menu", None)
+        1: ("Create New Booking", lambda: new_booking(rooms, bookings)),
+        2: ("Display All Bookings", lambda: display_bookings(bookings)),
+        3: ("Search Booking", lambda: search_booking(bookings)),
+        4: ("Display Customer Bookings", lambda: customer_bookings(bookings)),
+        5: ("Display Bookings in Date", lambda: bookings_in_date(bookings)),
+        6: ("Change Booking Details", lambda: change_booking(rooms, bookings)),
+        7: ("Cancel Booking", lambda: cancel_booking(bookings)),
+        8: ("Back to Main Menu", None)
     }
 
     while True:

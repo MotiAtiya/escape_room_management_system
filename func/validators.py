@@ -5,6 +5,14 @@ def parse_string(raw):
     return " ".join(string.split()).title()
 
 
+def parse_room_id(raw):
+    room_id = parse_string(raw)
+    if room_id.startswith('R') or room_id.startswith('r'):
+        room_id = room_id[1:]
+    room_id = parse_positive_int_number(room_id)
+    return 'R' + str(room_id).zfill(3)
+
+
 def parse_positive_int_number(raw):
     int_num = raw.strip()
     if not int_num:
@@ -49,17 +57,17 @@ def parse_not_negative_int_number(raw):
     return stock
 
 
-def choice_from(options):
+def parse_from_range(minimum, maximum):
     def parser(raw):
-        choice = raw.strip()
+        value = raw.strip()
         try:
-            int(choice)
+            value = int(value)
         except ValueError:
             raise ValueError("Must be an integer number")
         else:
-            if choice not in options:
-                raise ValueError("Invalid choice")
-            return choice
+            if not minimum <= value <= maximum:
+                raise ValueError(f"Invalid value. Enter from {minimum} to {maximum}")
+            return value
     return parser
 
 

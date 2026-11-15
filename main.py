@@ -14,10 +14,10 @@ def main():
     print(bookings)
 
     menu = {
-        "1": ("Rooms Management", lambda: rooms_management(rooms)),
-        "2": ("Bookings Management", lambda: bookings_management(rooms, bookings)),
-        "3": ("Reports", lambda: reports(rooms, bookings)),
-        "4": ("Exit", None)
+        1: ("Rooms Management", lambda: rooms_management(rooms)),
+        2: ("Bookings Management", lambda: bookings_management(rooms, bookings)),
+        3: ("Reports", lambda: reports(rooms, bookings)),
+        4: ("Exit", None)
     }
 
     while True:

@@ -20,3 +20,16 @@ def load_rooms():
 
 def load_bookings():
     return load_data(BOOKINGS_PATH)
+
+
+def dump_data(path, data):
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=2, ensure_ascii=False)
+
+
+def dump_rooms(rooms):
+    dump_data(ROOMS_PATH, rooms)
+
+
+def dump_bookings(bookings):
+    dump_data(BOOKINGS_PATH, bookings)
