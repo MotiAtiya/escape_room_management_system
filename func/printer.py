@@ -18,6 +18,14 @@ from .helpers import clear_screen
 # def display_active_products(products:list):
 #     display_products(list(filter(lambda p: p['active'] ,products)))
 
+
+def display_rooms(rooms):
+    pass
+
+
+def display_room_details(room):
+    pass
+
     
 def display_menu(menu):
     for index, option in menu.items():
