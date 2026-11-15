@@ -26,6 +26,9 @@ def display_rooms(rooms):
 def display_room_details(room):
     pass
 
+
+def display_bookings(bookings):
+    pass
     
 def display_menu(menu):
     for index, option in menu.items():
