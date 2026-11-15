@@ -10,6 +10,9 @@ def main():
     rooms = load_rooms()
     bookings = load_bookings()
 
+    print(rooms)
+    print(bookings)
+
     menu = {
         "1": ("Rooms Management", lambda: rooms_management(rooms)),
         "2": ("Bookings Management", lambda: bookings_management(rooms, bookings)),
