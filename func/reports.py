@@ -5,6 +5,8 @@ from .user_input import ask
 from validations.parsers import parse_date
 import datetime
 
+from .consts import ROOM_OPENING_TIME, ROOM_CLOSING_TIME, ROOM_PREPERATION_TIME
+
 
 def total_active_bookings(bookings):
     if not bookings:
@@ -97,7 +99,6 @@ def room_occupancy_rate_in_date(rooms, bookings):
     
 
 def reports(rooms, bookings):
-
     menu = {
         1: ("Total Active Bookings", lambda: total_active_bookings(bookings)),
         2: ("Total Inactive Bookings", lambda: total_inactive_bookings(bookings)),
