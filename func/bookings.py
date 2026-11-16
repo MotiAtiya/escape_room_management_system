@@ -2,8 +2,8 @@ from .printer import display_option_title, display_function_title, display_booki
 from .menu import get_action, enter_to_continue
 from .rooms import search_room_by_id, get_room_by_id
 from .user_input import ask, edit
-from ..validations.date_time_validators import validate_date, validate_room_time
-from ..validations.parsers import parse_from_range, parse_date, parse_time, parse_string, parse_booking_id, parse_room_id, parse_yes_no_confirmation
+from validations.date_time_validators import validate_date, validate_room_time
+from validations.parsers import parse_from_range, parse_date, parse_time, parse_string, parse_booking_id, parse_room_id, parse_yes_no_confirmation
 from .storage import dump_bookings
 import datetime
 

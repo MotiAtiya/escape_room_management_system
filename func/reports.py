@@ -2,7 +2,7 @@ from .printer import display_option_title, display_function_title
 from .menu import get_action,enter_to_continue
 from .rooms import search_room_by_id
 from .user_input import ask
-from ..validations.parsers import parse_date
+from validations.parsers import parse_date
 import datetime
 
 

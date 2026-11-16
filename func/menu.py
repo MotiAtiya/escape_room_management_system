@@ -1,5 +1,5 @@
 from .printer import display_menu
-from ..validations.date_time_validators import parse_from_range
+from validations.parsers import parse_from_range
 from .user_input import ask
 
 def get_action(menu):
