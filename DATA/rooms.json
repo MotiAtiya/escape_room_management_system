@@ -58,5 +58,15 @@
     "max_players": 30,
     "price_per_player": 60,
     "is_active": true
+  },
+  {
+    "room_id": "R007",
+    "name": "Fdsfsdf",
+    "difficulty": "Medium",
+    "duration": 45,
+    "min_players": 2,
+    "max_players": 32,
+    "price_per_player": 54,
+    "is_active": true
   }
 ]

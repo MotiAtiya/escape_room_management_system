@@ -1,8 +1,8 @@
-from .printer import display_option_title, display_function_title, display_bookings
+from .printer import display_option_title, display_function_title, display_bookings, display_booking_details
 from .menu import get_action, enter_to_continue
 from .rooms import search_room_by_id
 from .user_input import ask
-from .validators import parse_from_range, parse_date, parse_time, validate_room_time, parse_string
+from .validators import parse_from_range, parse_date, parse_time, validate_room_time, parse_string, parse_booking_id
 from .storage import dump_bookings
 import datetime
 
@@ -63,8 +63,18 @@ def add_booking(rooms, bookings):
     print(f"\nbooking {new_booking['booking_id']} added successfuly!")
     
 
-def search_booking(bookings):
-    pass
+
+def search_booking_by_id(bookings):
+    booking_id = ask(parse_booking_id, "Enter booking ID: ")
+    for b in bookings:
+        if b['booking_id'] == booking_id:
+            return b
+    raise ValueError("Booking not found")
+
+
+def booking_details(bookings):
+    booking = search_booking_by_id(bookings)
+    display_booking_details(booking)
 
 
 def customer_bookings(bookings):
@@ -87,7 +97,7 @@ def bookings_management(rooms, bookings):
     menu = {
         1: ("Create New Booking", lambda: add_booking(rooms, bookings)),
         2: ("Display All Bookings", lambda: display_bookings(bookings)),
-        3: ("Search Booking", lambda: search_booking(bookings)),
+        3: ("Search Booking", lambda: booking_details(bookings)),
         4: ("Display Customer Bookings", lambda: customer_bookings(bookings)),
         5: ("Display Bookings in Date", lambda: bookings_in_date(bookings)),
         6: ("Change Booking Details", lambda: change_booking(rooms, bookings)),

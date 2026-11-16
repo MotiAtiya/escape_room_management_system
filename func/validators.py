@@ -9,12 +9,22 @@ def parse_string(raw):
     return " ".join(string.split()).title()
 
 
-def parse_room_id(raw):
+def parse_id(raw, prefix):
     room_id = parse_string(raw)
-    if room_id.startswith('R') or room_id.startswith('r'):
+    if room_id[:1] in prefix:
         room_id = room_id[1:]
+    elif room_id[:1].isalpha():
+        raise ValueError(f"ID must be of the form '{prefix[0]}x' when x is integer. For example: {prefix[0]}001")
     room_id = parse_positive_int_number(room_id)
-    return 'R' + str(room_id).zfill(3)
+    return str(room_id).zfill(3)
+
+
+def parse_room_id(raw):
+    return 'R' + parse_id(raw, ['R', 'r'])
+
+
+def parse_booking_id(raw):
+    return 'B' + parse_id(raw, ['B', 'b'])
 
 
 def parse_positive_int_number(raw):
