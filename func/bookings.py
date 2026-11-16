@@ -2,7 +2,7 @@ from .printer import display_option_title, display_function_title, display_booki
 from .menu import get_action, enter_to_continue
 from .rooms import search_room_by_id, get_room_by_id
 from .user_input import ask, edit
-from .validators import parse_from_range, parse_date, parse_time, validate_date, validate_room_time, parse_string, parse_booking_id, parse_room_id
+from .validators import parse_from_range, parse_date, parse_time, validate_date, validate_room_time, parse_string, parse_booking_id, parse_room_id, parse_yes_no_confirmation
 from .storage import dump_bookings
 import datetime
 
@@ -11,7 +11,6 @@ def get_next_booking_id(bookings):
     latest = max(bookings, key=lambda b: b['booking_id'][1:])
     latest_id = int(latest["booking_id"][1:])
     return 'B' + str(latest_id + 1).zfill(3)
-
 
 
 def calculate_price(base_price, num_of_players, day):
@@ -26,6 +25,7 @@ def calculate_price(base_price, num_of_players, day):
         price += price * 15 / 100
     
     return round(price, 2)
+
 
 def add_booking(rooms, bookings):
     customer_name = ask(parse_string, "Enter customer name: ")
@@ -103,6 +103,7 @@ def search_bookings_by_date(bookings):
         raise ValueError("There are not bookings in this date")
     return result
 
+
 def bookings_in_date(bookings):
     booking_list = search_bookings_by_date(bookings)
     display_bookings(booking_list)
@@ -145,8 +146,40 @@ def update_booking(rooms, bookings):
     print(f"\nbooking {booking['booking_id']} updated successfuly!")
 
 
+def calculate_cancellation_fee(booking_datetime, current_datetime, price):
+    if current_datetime + datetime.timedelta(hours=24) < booking_datetime:
+        return 0
+    
+    if current_datetime + datetime.timedelta(hours=6) <= booking_datetime <= current_datetime + datetime.timedelta(hours=24):
+        return price * 25 / 100
+    
+    if booking_datetime < current_datetime + datetime.timedelta(hours=6):
+        return price * 50 / 100
+    
+
 def cancel_booking(bookings):
-    pass
+    booking = search_booking_by_id(bookings)
+    if booking['status'] == "Cancelled":
+        raise ValueError("This booking already cancelled before")
+    
+    booking_date = datetime.datetime.strptime(booking['booking_date'], "%Y-%m-%d")
+    booking_time = datetime.datetime.strptime(booking['start_time'], "%H:%M")
+    booking_datetime = datetime.datetime.combine(booking_date.date(), booking_time.time())
+    current_datetime = datetime.datetime.now()
+
+    if booking_datetime < current_datetime:
+        raise ValueError("The order has already been redeemed. It cannot be cancelled")
+    
+    fee = calculate_cancellation_fee(booking_datetime, current_datetime, booking['total_price'])
+
+    user_confirm = ask(parse_yes_no_confirmation, f"Are you sure to cancel the booking? It will cost you a fee of {fee} [y/n]: ")
+    if user_confirm == 'y':
+        booking['status'] = "Cancelled"
+        booking['cancellation_fee'] = fee
+        dump_bookings(bookings)
+        print(f"\nBooking {booking['booking_id']} cancelled successfuly!")
+    else:
+        print(f"\nCancel cancelled!")
 
 
 def bookings_management(rooms, bookings):

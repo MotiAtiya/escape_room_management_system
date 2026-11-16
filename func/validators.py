@@ -90,7 +90,7 @@ def parse_yes_no_confirmation(raw):
     if not confirm:
         raise ValueError("Cannot be empty")
     if confirm not in ['yes', 'y', 'Y', 'no', 'n', 'N']:
-        raise ValueError("Invalid choise. Only yes (y) or no (n)")
+        raise ValueError("Invalid input. Only yes (y) or no (n)")
     return 'y' if confirm in ['yes', 'y', 'Y'] else 'n'
 
 
@@ -147,7 +147,7 @@ def validate_room_time(new_datetime:datetime.datetime, room, bookings, skip_book
     for b in bookings:
         if skip_booking_id and b['booking_id'] == skip_booking_id:
             continue
-        
+
         if b['room_id'] == room['room_id']:
             existing_start = get_datetime_by_date_and_time(b['booking_date'], b['start_time'])
             if existing_start.date() == new_datetime.date():
