@@ -105,12 +105,15 @@ def parse_date(raw):
     raw_date = parse_string(raw)
     day, month, year = re.split(r"[.,\-/:\s]+", raw_date)
     date = datetime.datetime(int(year), int(month), int(day))
+    return date
+
+
+def validate_date(date):
     cureent_date = datetime.datetime.now()
     if cureent_date > date:
         raise ValueError("Date must be in the future")
     if date > datetime.datetime(cureent_date.year + 1, cureent_date.month, cureent_date.day):
         raise ValueError("Date so far")
-    return date
 
 
 def parse_time(raw):
@@ -126,7 +129,7 @@ def get_datetime_by_date_and_time(booking_date, start_time):
     return datetime.datetime(int(year), int(month), int(day), int(hour), int(minut))
     
 
-def validate_room_time(new_datetime:datetime.datetime, room, bookings):
+def validate_room_time(new_datetime:datetime.datetime, room, bookings, skip_booking_id = None):
     start_day = new_datetime.replace(hour=10)
     end_day = new_datetime.replace(hour=22)
     
@@ -142,6 +145,9 @@ def validate_room_time(new_datetime:datetime.datetime, room, bookings):
     new_end = new_datetime + duration + preparation_time
 
     for b in bookings:
+        if skip_booking_id and b['booking_id'] == skip_booking_id:
+            continue
+        
         if b['room_id'] == room['room_id']:
             existing_start = get_datetime_by_date_and_time(b['booking_date'], b['start_time'])
             if existing_start.date() == new_datetime.date():
