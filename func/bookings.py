@@ -1,9 +1,67 @@
 from .printer import display_option_title, display_function_title, display_bookings
 from .menu import get_action, enter_to_continue
+from .rooms import search_room_by_id
+from .user_input import ask
+from .validators import parse_from_range, parse_date, parse_time, validate_room_time, parse_string
+from .storage import dump_bookings
+import datetime
 
-def new_booking(rooms, bookings):
-    pass
 
+def get_next_booking_id(bookings):
+    latest = max(bookings, key=lambda b: b['booking_id'][1:])
+    latest_id = int(latest["booking_id"][1:])
+    return 'B' + str(latest_id + 1).zfill(3)
+
+
+
+def calculate_price(base_price, num_of_players, day):
+    price = base_price * num_of_players
+    if 5 <= num_of_players <= 6:
+        price -= price * 10 / 100
+    elif num_of_players >= 7:
+        price -= price * 15 / 100
+
+    if day in [6,7]:
+        price += price * 15 / 100
+    
+    return round(price, 2)
+
+def add_booking(rooms, bookings):
+    customer_name = ask(parse_string, "Enter customer name: ")
+    room = search_room_by_id(rooms)
+    if not room['is_active']:
+        raise ValueError("This room is inactive")
+
+    date = ask(parse_date, "Enter booking date [dd/mm/yyyy]: ")
+
+    while True:
+        try:
+            start_time = ask(parse_time, "Enter booking time [hh:mm]: ")
+            booking_datetime = datetime.datetime(date.year, date.month, date.day, start_time.hour, start_time.minute)
+            validate_room_time(booking_datetime, room, bookings)
+            break
+        except ValueError as e:
+            print("Error:", e)
+
+    num_of_players = ask(parse_from_range(room['min_players'], room['max_players']), "Enter num of players: ")
+
+        
+
+    new_booking = {
+        "booking_id": get_next_booking_id(bookings),
+        "customer_name": customer_name,
+        "room_id": room['room_id'],
+        "booking_date": booking_datetime.strftime("%Y-%m-%d"),
+        "start_time": booking_datetime.strftime("%H:%M"),
+        "players": num_of_players,
+        "total_price": calculate_price(room['price_per_player'], num_of_players, booking_datetime.weekday()),
+        "status": "Active",
+        "cancellation_fee": 0.0
+    }
+    bookings.append(new_booking)
+    dump_bookings(bookings)
+    print(f"\nbooking {new_booking['booking_id']} added successfuly!")
+    
 
 def search_booking(bookings):
     pass
@@ -27,7 +85,7 @@ def cancel_booking(bookings):
 
 def bookings_management(rooms, bookings):
     menu = {
-        1: ("Create New Booking", lambda: new_booking(rooms, bookings)),
+        1: ("Create New Booking", lambda: add_booking(rooms, bookings)),
         2: ("Display All Bookings", lambda: display_bookings(bookings)),
         3: ("Search Booking", lambda: search_booking(bookings)),
         4: ("Display Customer Bookings", lambda: customer_bookings(bookings)),
