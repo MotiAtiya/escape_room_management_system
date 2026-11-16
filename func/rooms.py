@@ -1,7 +1,7 @@
 from .printer import display_option_title, display_function_title, display_rooms, display_room_details
 from .menu import get_action, enter_to_continue
 from .user_input import ask, edit
-from .validators import parse_room_id, parse_string, parse_from_range, parse_positive_int_number, parse_yes_no_confirmation
+from ..validations.parsers import parse_room_id, parse_string, parse_from_range, parse_positive_int_number, parse_yes_no_confirmation
 from .storage import dump_rooms
 
 def get_room_by_id(rooms, room_id):
