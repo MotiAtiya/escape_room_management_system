@@ -64,6 +64,9 @@ def add_booking(rooms, bookings):
     
 
 def search_booking_by_id(bookings):
+    if not bookings:
+        raise ValueError("There are no bookings in the system")
+    
     booking_id = ask(parse_booking_id, "Enter booking ID: ")
     for b in bookings:
         if b['booking_id'] == booking_id:
@@ -77,6 +80,9 @@ def booking_details(bookings):
 
 
 def search_bookings_by_customer_name(bookings):
+    if not bookings:
+        raise ValueError("There are no bookings in the system")
+    
     customer_name = ask(parse_string, "Enter customer name: ")
     result = []
     for b in bookings:
@@ -93,6 +99,9 @@ def customer_bookings(bookings):
 
 
 def search_bookings_by_date(bookings):
+    if not bookings:
+        raise ValueError("There are no bookings in the system")
+    
     date = ask(parse_date, "Enter booking date [dd/mm/yyyy]: ")
     formated_date = date.strftime("%Y-%m-%d")
     result = []

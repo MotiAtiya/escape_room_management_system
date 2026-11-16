@@ -1,9 +1,9 @@
 from .helpers import clear_screen
 
 def display_rooms(rooms):
-    # if not rooms:
-    #     raise
-
+    if not rooms:
+        raise ValueError("There are no rooms in the system")
+    
     print("ID".ljust(10), "Name".ljust(20), "Difficulty".ljust(15), "Duration".ljust(10), "Players".ljust(10), "Price".ljust(10), "Status".ljust(10))
     print()
     for r in rooms:

@@ -12,6 +12,8 @@ def get_room_by_id(rooms, room_id):
 
 
 def search_room_by_id(rooms):
+    if not rooms:
+        raise ValueError("There are no rooms in the system")
     room_id = ask(parse_room_id, "Enter room ID: ")
     return get_room_by_id(rooms, room_id)
 
