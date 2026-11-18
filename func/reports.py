@@ -80,8 +80,8 @@ def room_occupancy_rate_in_date(rooms, bookings):
     room = search_room_by_id(rooms)
     date = ask(parse_date, "Enter booking date [dd/mm/yyyy]: ")
     duration = datetime.timedelta(minutes = room['duration'])
-    preparation_time = datetime.timedelta(minutes = 15)
-    total_activity_time = datetime.timedelta(hours = 12)
+    preparation_time = datetime.timedelta(minutes = ROOM_PREPERATION_TIME)
+    total_activity_time = datetime.timedelta(hours = ROOM_CLOSING_TIME - ROOM_OPENING_TIME)
     total_activity_utilization = datetime.timedelta()
 
     formated_date = date.strftime("%Y-%m-%d")
@@ -89,7 +89,7 @@ def room_occupancy_rate_in_date(rooms, bookings):
         if b['status'] == "Active" and b['room_id'] == room['room_id'] and b['booking_date'] == formated_date:
             b_time = datetime.datetime.strptime(b['start_time'], "%H:%M")
             b_datetime = datetime.datetime.combine(date.date(), b_time.time())
-            if b_datetime > b_datetime.replace(hour=22):
+            if b_datetime > b_datetime.replace(hour=ROOM_CLOSING_TIME):
                 total_activity_utilization += duration
             else:
                 total_activity_utilization += duration + preparation_time

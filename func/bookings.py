@@ -205,7 +205,7 @@ def bookings_management(rooms, bookings):
     }
 
     while True:
-        display_option_title("Products Management")
+        display_option_title("Bookings Management")
         title, action = get_action(menu)
         if action is None:
             break

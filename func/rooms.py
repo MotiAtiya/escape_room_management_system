@@ -109,7 +109,7 @@ def rooms_management(rooms):
     }
 
     while True:
-        display_option_title("Products Management")
+        display_option_title("Rooms Management")
         title, action = get_action(menu)
         if action is None:
             break
